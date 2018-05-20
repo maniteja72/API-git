@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+	<title>GitHub Seach Helper</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+	<script type="text/javascript" src="js/lib/angular.min.js"></script>
+
+	<script type="text/javascript" src="js/controllers/appMain.js"></script>
+</head>
+<body>
+	<div id="wrapper" ng-controller="appMain">
+		<header id="page_header" class="gray-background border-bottom-gray border-top-gray padding-normal">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-6">
+						<h2 class="no-margin"><strong>GITHub</strong> Search Helper</h2>
+					</div>
+					<div class="col-xs-6"></div>
+					<div class="clearfix"></div>
+				</div><!-- end of row -->
+			</div><!-- end of container -->
+		</header>
+
+		<br>
+		<br>
+
+		<section id="page_content">
+			<div class="container">
+
+				<div class="smaller-container">
+					<h3>Please enter your repositories query</h3>
+					<input type="text" name="sl-query" id="sl-query" class="form-control" ng-model="keyword" placeholder="Your Query">
+					<div class="text-center margin-top">
+						<input type="submit" id="query-submit" ng-click="sendQeury()" value="Find Repository" class="btn btn-primary">
+					</div>
+				</div>
+
+				<br>
+				<br>
+
+				<hr>
+
+				<br>
+				<br>
+
+				<img src="images/spinner.gif" class="m-center full-width auto-hgiht" alt="Loading ..." ng-show="showSpinner">
+
+				<div class="query-result" ng-show="repositories">
+
+					<div class="text-right">
+							Sort Result By:
+							<select id="sort_by" ng-model="sort_by" ng-change="sortFieldChanged()">
+								<option>Repository Name</option>
+								<option>Owner Name</option>
+								<option>Creation Date</option>
+							</select>
+
+					</div>
+				
+					<br>
+
+					<table id="result-table" class="table table-striped">
+						<thead>
+							<tr>
+								<th>Repository Name</th>
+								<th>Owner Name</th>
+								<th>Creation Date</th>
+								<th>Repository URL</th>
+							</tr>
+						</thead>
+
+						<tbody ng-repeat=" repository in repositories | limitTo:10">
+							<tr>
+								<td>{{repository.name}}</td>
+								<td>{{repository.owner.login}}</td>
+								<td>{{repository.created_at}}</td>
+								<td><a href="{{repository.git_url}}" target="_BLANK" title="{{repository.full_name}}">{{repository.git_url}}</a></td>
+							</tr>
+							
+						</tbody>
+					</table>
+				</div><!-- end of query result -->
+
+			</div><!-- end of container -->
+		</section>
+
+	</div><!-- end of wrapper -->
+</body>
+</html>
